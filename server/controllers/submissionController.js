@@ -188,6 +188,8 @@ export const submitCode = async (req, res) => {
       }
     }
 
+    const firstError = results.find(r => r.stderr || r.compileOutput);
+
     res.json({
       success: true,
       submission: {
@@ -197,6 +199,7 @@ export const submitCode = async (req, res) => {
         memory: submission.memory,
         testCasesPassed: passed,
         totalTestCases: total,
+        stderr: firstError ? (firstError.stderr || firstError.compileOutput) : '',
         results: results.map(r => ({
           input: r.input,
           expectedOutput: r.expectedOutput,

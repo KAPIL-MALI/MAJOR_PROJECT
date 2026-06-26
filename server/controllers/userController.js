@@ -13,6 +13,14 @@ export const getUserProfile = async (req, res) => {
       status: 'Accepted' 
     });
 
+    // Calculate rank: count users with more solved problems + 1
+    const userSolvedCount = user.solvedProblems ? user.solvedProblems.length : 0;
+    const usersAhead = await User.countDocuments({
+      _id: { $ne: user._id },
+      $expr: { $gt: [{ $size: '$solvedProblems' }, userSolvedCount] }
+    });
+    const rank = usersAhead + 1;
+
     res.json({
       success: true,
       user: {
@@ -26,6 +34,7 @@ export const getUserProfile = async (req, res) => {
         solvedProblems: user.solvedProblems,
         totalSubmissions,
         acceptedSubmissions,
+        rank,
         createdAt: user.createdAt
       }
     });

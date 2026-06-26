@@ -88,9 +88,9 @@ const Profile = () => {
             <div className="flex flex-col items-center gap-1">
               <div className="w-16 h-16 rounded-full bg-gradient-to-br from-primary/30 to-secondary/30
                               flex items-center justify-center ring-2 ring-primary/30">
-                <span className="text-lg font-black font-mono text-primary">#</span>
+                <span className="text-lg font-black font-mono text-primary">#{user.rank || '?'}</span>
               </div>
-              <span className="text-sm font-bold font-mono">12,345</span>
+              <span className="text-sm font-bold font-mono">{user.rank ? user.rank.toLocaleString() : '—'}</span>
               <span className="text-[10px] text-base-content/40 uppercase tracking-wider">Rank</span>
             </div>
 

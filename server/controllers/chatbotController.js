@@ -10,7 +10,7 @@ function initGemini() {
   const key = process.env.GEMINI_API_KEY;
   if (key && key !== 'your_gemini_api_key_here' && !genAI) {
     genAI = new GoogleGenerativeAI(key);
-    model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash-lite' });
+    model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
   }
   return model;
 }
@@ -50,9 +50,14 @@ Use code examples when relevant. Use emojis sparingly for friendliness.`;
       }
     }
 
+    // Gemini requires history to start with a 'user' message — strip leading 'model' entries
+    while (chatHistory.length > 0 && chatHistory[0].role === 'model') {
+      chatHistory.shift();
+    }
+
     const chat = geminiModel.startChat({
       history: chatHistory,
-      systemInstruction: systemPrompt,
+      systemInstruction: { parts: [{ text: systemPrompt }] },
     });
 
     const result = await chat.sendMessage(message);

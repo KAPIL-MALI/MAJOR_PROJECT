@@ -90,7 +90,19 @@ export const login = async (req, res) => {
 export const getMe = async (req, res) => {
   try {
     const user = await User.findById(req.user._id).populate('solvedProblems.problem', 'title slug difficulty');
-    res.json({ success: true, user });
+
+    // Calculate rank: count users with more solved problems + 1
+    const userSolvedCount = user.solvedProblems ? user.solvedProblems.length : 0;
+    const usersAhead = await User.countDocuments({
+      _id: { $ne: user._id },
+      $expr: { $gt: [{ $size: '$solvedProblems' }, userSolvedCount] }
+    });
+    const rank = usersAhead + 1;
+
+    const userObj = user.toObject();
+    userObj.rank = rank;
+
+    res.json({ success: true, user: userObj });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }
