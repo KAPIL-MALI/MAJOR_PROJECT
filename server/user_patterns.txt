@@ -1,0 +1,1710 @@
+🟦 1. Best Time to Buy and Sell Stock
+
+🧠 Pattern: Greedy / Minimum So Far Pattern
+
+The key idea is:
+
+Keep track of the lowest price seen so far, and calculate the profit if you sell today.
+
+If prices are:
+
+[7, 1, 5, 3, 6, 4]
+
+When the current price is 6:
+
+profit = 6 - 1 = 5
+
+So instead of trying every possible buy-sell pair, you ask:
+
+“What is the cheapest price I have seen before today?”
+
+What you learned from Best Time to Buy and Sell Stock
+Track the minimum so far → cheapest buying price
+Calculate profit at every position → current price - minimum price
+Keep the maximum profit
+Avoid checking every pair
+Brute force: O(n²)
+Greedy: O(n)
+🔥 The reusable pattern
+
+When you need the best result involving a previous element, think:
+
+“What is the best previous value I need to remember?”
+
+This pattern appears in stock problems, maximum differences, and optimization problems.
+
+So your takeaway is:
+
+Best Time to Buy and Sell Stock → Minimum So Far + Maximum Profit → “What is the best previous value?”
+
+🟦 2. Contains Duplicate
+
+🧠 Pattern: Hash Set / Seen Elements Pattern
+
+The key idea is:
+
+Keep track of elements you have already seen. If an element appears again, it is a duplicate.
+
+For:
+
+[1, 2, 3, 1]
+
+When you reach the second 1:
+
+“Have I already seen 1?” → Yes → Duplicate
+
+What you learned from Contains Duplicate
+Track previously seen elements
+Set gives fast existence checking
+Stop as soon as a duplicate is found
+Avoid comparing every pair
+Brute force: O(n²)
+Hash Set: O(n)
+🔥 The reusable pattern
+
+Whenever a problem asks whether something has appeared before, think:
+
+“Can I store what I have already seen?”
+
+This appears in duplicate detection, visited nodes, repeated characters, and cycle-related problems.
+
+So your takeaway is:
+
+Contains Duplicate → Hash Set + Seen Elements → “Have I seen this before?”
+
+🟦 3. Maximum Subarray
+
+🧠 Pattern: Kadane’s Algorithm / Running Best Pattern
+
+The key idea is:
+
+At every position, decide whether to continue the current subarray or start a new one.
+
+Suppose the current running sum becomes negative.
+
+Keeping that negative sum will only hurt future elements.
+
+So you ask:
+
+“Is it better to continue with what I have, or start fresh from here?”
+
+What you learned from Maximum Subarray
+Maintain a running sum
+Discard a harmful previous sum
+Track the best sum found so far
+Make a local decision at every element
+Avoid checking every possible subarray
+Brute force: O(n²) or worse
+Kadane: O(n)
+🔥 The reusable pattern
+
+When a problem asks for the best contiguous segment, think:
+
+“Should I extend the current segment or start a new one?”
+
+This is the foundation of Kadane's Algorithm.
+
+So your takeaway is:
+
+Maximum Subarray → Kadane’s Algorithm → “Continue or restart?”
+
+🟦 4. Product of Array Except Self
+
+🧠 Pattern: Prefix + Suffix Pattern
+
+The key idea is:
+
+For every position, calculate the product of everything to its left and everything to its right.
+
+For:
+
+[1, 2, 3, 4]
+
+For index 2:
+
+Left side:
+
+1 × 2 = 2
+
+Right side:
+
+4
+
+Answer:
+
+2 × 4 = 8
+
+The important observation is:
+
+You don't need to repeatedly calculate the entire product.
+
+What you learned from Product of Array Except Self
+Break the problem into left and right information
+Prefix = information from the left
+Suffix = information from the right
+Combine prefix and suffix
+Avoid division because of zero-related issues
+🔥 The reusable pattern
+
+When each position needs information from both sides, think:
+
+“Can I precompute information from the left and right?”
+
+This pattern appears in prefix sums, suffix sums, products, range queries, and array optimization.
+
+So your takeaway is:
+
+Product of Array Except Self → Prefix + Suffix → “What information exists on my left and right?”
+
+🟦 5. Valid Anagram
+
+🧠 Pattern: Frequency Counting Pattern
+
+The key idea is:
+
+Two strings are anagrams if they contain exactly the same characters with exactly the same frequencies.
+
+For:
+
+"listen"
+
+and
+
+"silent"
+
+Both contain:
+
+l → 1
+
+i → 1
+
+s → 1
+
+t → 1
+
+e → 1
+
+n → 1
+
+Therefore they are anagrams.
+
+What you learned from Valid Anagram
+Count frequencies
+Compare character frequencies
+Order does not matter
+Hash Map / Frequency Array gives fast counting
+🔥 The reusable pattern
+
+Whenever order doesn't matter but frequency matters, think:
+
+“Can I count how many times each element occurs?”
+
+This appears in anagrams, character counting, permutations, and frequency-based problems.
+
+So your takeaway is:
+
+Valid Anagram → Frequency Counting → “Do both contain the same elements with the same frequency?”
+
+🟦 6. Longest Substring Without Repeating Characters
+
+🧠 Pattern: Sliding Window + Hash Set
+
+The key idea is:
+
+Maintain a window containing unique characters and move the left boundary whenever a duplicate appears.
+
+For:
+
+abcabcbb
+
+Start with:
+
+abc
+
+Next character is a.
+
+a already exists inside the window.
+
+So you move the left side forward until the window becomes valid again.
+
+What you learned
+Maintain a valid window
+Expand the window when possible
+Shrink the window when the condition breaks
+Use a Set/Map to track characters
+Avoid checking every substring
+🔥 The reusable pattern
+
+When a problem asks for the longest/shortest contiguous portion satisfying a condition, think:
+
+“Can I maintain a sliding window instead of checking every substring?”
+
+This is one of the most important interview patterns.
+
+So your takeaway is:
+
+Longest Substring → Sliding Window → “Expand when valid, shrink when invalid.”
+
+🟦 7. Valid Palindrome
+
+🧠 Pattern: Two Pointers
+
+The key idea is:
+
+Compare characters from both ends and move toward the center.
+
+For:
+
+"racecar"
+
+Compare:
+
+r ↔ r
+
+a ↔ a
+
+c ↔ c
+
+Continue until the pointers meet.
+
+What you learned
+Use left and right pointers
+Compare opposite ends
+Move both pointers toward the center
+Ignore characters that don't matter according to the problem
+🔥 The reusable pattern
+
+When you need to compare both ends of a sequence, think:
+
+“Can two pointers move toward each other?”
+
+This appears in palindrome problems, sorted arrays, pair problems, and string validation.
+
+So your takeaway is:
+
+Valid Palindrome → Two Pointers → “Compare from both ends.”
+
+🟦 8. Reverse Linked List
+
+🧠 Pattern: Pointer Reversal Pattern
+
+The key idea is:
+
+Reverse each link one at a time while keeping track of the next node.
+
+Normally:
+
+1 → 2 → 3 → NULL
+
+After reversal:
+
+3 → 2 → 1 → NULL
+
+The important problem is:
+
+If you change 1 → 2 to 1 ← 2 without saving 2, you lose access to the rest of the list.
+
+Therefore:
+
+Save first → Reverse link → Move forward
+
+What you learned
+Understand pointer manipulation
+Save the next node before changing links
+Reverse one connection at a time
+Move through the list systematically
+🔥 The reusable pattern
+
+Whenever you modify linked-list connections, think:
+
+“What information will I lose after changing this pointer?”
+
+This principle is extremely important for linked-list problems.
+
+So your takeaway is:
+
+Reverse Linked List → Pointer Manipulation → “Save next, reverse current, move forward.”
+
+🟦 9. Merge Two Sorted Lists
+
+🧠 Pattern: Two Pointers / Merge Pattern
+
+The key idea is:
+
+Compare the current nodes of both sorted lists and take the smaller one.
+
+Example:
+
+1 → 3 → 5
+
+2 → 4 → 6
+
+Compare:
+
+1 vs 2 → take 1
+
+3 vs 2 → take 2
+
+3 vs 4 → take 3
+
+And continue.
+
+What you learned
+Use two pointers
+Exploit the fact that both lists are already sorted
+Always select the smaller current element
+Continue until one list finishes
+🔥 The reusable pattern
+
+When two sequences are already sorted, think:
+
+“Can I merge them using two pointers?”
+
+This is the same core idea used in Merge Sort.
+
+So your takeaway is:
+
+Merge Two Sorted Lists → Two Pointers + Merge → “Compare both current elements.”
+
+🟦 10. Valid Parentheses
+
+🧠 Pattern: Stack / Matching Pattern
+
+The key idea is:
+
+The most recently opened bracket must be the first bracket that gets closed.
+
+For:
+
+({[]})
+
+The opening order is:
+
+( → { → [
+
+Therefore the closing order must be:
+
+[ → } → )
+
+This is exactly Last In, First Out (LIFO).
+
+What you learned
+Stack follows LIFO
+Opening brackets are stored
+Closing brackets must match the most recent opening bracket
+Remove the matched opening bracket
+Any mismatch means invalid
+🔥 The reusable pattern
+
+Whenever something must be processed in reverse order of arrival, think:
+
+“Is this a Stack / LIFO problem?”
+
+This appears in parentheses, undo operations, expression evaluation, and recursion simulation.
+
+So your takeaway is:
+
+Valid Parentheses → Stack → “Last opened must be first closed.”
+
+🟦 11. Binary Search
+
+🧠 Pattern: Binary Search / Divide and Conquer
+
+The key idea is:
+
+Use the sorted order to eliminate half of the search space after every comparison.
+
+For:
+
+[1, 3, 5, 7, 9]
+
+Target:
+
+7
+
+Check middle:
+
+5
+
+Since:
+
+7 > 5
+
+Ignore everything on the left.
+
+Now search only:
+
+[7, 9]
+
+What you learned
+Requires sorted data
+Check the middle
+Eliminate half the search space
+Repeat
+Much faster than linear search
+🔥 The reusable pattern
+
+Whenever the search space is sorted or can be divided based on a condition, think:
+
+“Can I eliminate half the possibilities?”
+
+So your takeaway is:
+
+Binary Search → Divide Search Space in Half → “Which half can I eliminate?”
+
+🟦 12. Maximum Depth of Binary Tree
+
+🧠 Pattern: Tree DFS / Recursion
+
+The key idea is:
+
+The depth of a tree is one plus the maximum depth of its left and right subtrees.
+
+For every node:
+
+depth = 1 + max(left depth, right depth)
+
+What you learned
+Tree problems naturally use recursion
+Solve left subtree
+Solve right subtree
+Take the larger result
+Add the current node
+🔥 The reusable pattern
+
+For tree problems asking about height, depth, size, or structure, think:
+
+“Can I solve the smaller subtrees and combine their answers?”
+
+So your takeaway is:
+
+Maximum Depth → DFS + Recursion → “Solve both subtrees and take the maximum.”
+
+🟦 13. Invert Binary Tree
+
+🧠 Pattern: Tree Recursion / Subtree Transformation
+
+The key idea is:
+
+At every node, swap its left and right subtrees.
+
+Example:
+
+      1
+     / \
+    2   3
+
+becomes:
+
+      1
+     / \
+    3   2
+
+Then perform the same operation on the children.
+
+What you learned
+Tree problems can be solved recursively
+A tree is made of smaller subtrees
+Perform the same operation at every node
+Handle the base case carefully
+🔥 The reusable pattern
+
+When the same operation must be performed throughout a tree, think:
+
+“Can I recursively apply this operation to every subtree?”
+
+So your takeaway is:
+
+Invert Binary Tree → Tree Recursion → “Transform every subtree the same way.”
+
+🟦 14. Climbing Stairs
+
+🧠 Pattern: Dynamic Programming / Fibonacci Pattern
+
+The key idea is:
+
+To reach step n, you can come from either step n-1 or step n-2.
+
+Therefore:
+
+ways(n) = ways(n-1) + ways(n-2)
+
+This creates the Fibonacci pattern.
+
+What you learned
+Break a large problem into smaller problems
+Reuse previously calculated results
+Identify the recurrence relation
+Avoid repeated recursive calculations
+🔥 The reusable pattern
+
+When a problem asks for the number of ways and the current state depends on previous states, think:
+
+“Can I define the current answer using previous answers?”
+
+So your takeaway is:
+
+Climbing Stairs → DP + Fibonacci → “Current ways = previous ways + two-steps-back ways.”
+
+🟦 15. House Robber
+
+🧠 Pattern: Dynamic Programming / Take-or-Skip Pattern
+
+The key idea is:
+
+At every house, decide whether to rob it or skip it.
+
+If you rob the current house:
+
+You cannot rob the previous house.
+
+So you compare:
+
+Rob current + best from two houses back
+
+vs.
+
+Skip current + best from previous house
+
+What you learned
+Every position gives you a choice
+Take or skip
+Taking one element may prevent taking another
+Store the best result for previous positions
+🔥 The reusable pattern
+
+When you have choices where selecting one item affects neighboring/future choices, think:
+
+“Take it or skip it?”
+
+So your takeaway is:
+
+House Robber → DP + Take/Skip → “Is taking this better than skipping it?”
+
+🟦 16. Coin Change
+
+🧠 Pattern: Dynamic Programming / Minimum Optimization
+
+The key idea is:
+
+Find the minimum number of coins needed to create every smaller amount, then use those answers to build the target amount.
+
+If you want amount 11, and have coin 5:
+
+You can think:
+
+5 + best way to make 6
+
+So the problem repeatedly asks:
+
+“If I use this coin, what is the best answer for the remaining amount?”
+
+What you learned
+Build answers for smaller amounts
+Reuse previous results
+Try each available choice
+Take the minimum
+Recognize impossible states
+🔥 The reusable pattern
+
+When the problem asks for the minimum/maximum way to reach a target, think:
+
+“Can I solve smaller targets first and use them to build the bigger target?”
+
+So your takeaway is:
+
+Coin Change → DP + Minimum Optimization → “What is the best answer for the remaining amount?”
+
+🟦 17. Longest Common Subsequence
+
+🧠 Pattern: 2D Dynamic Programming
+
+The key idea is:
+
+Compare characters from both strings and build the answer using smaller prefixes of the two strings.
+
+If:
+
+A[i] == B[j]
+
+that character can contribute to the subsequence.
+
+If they don't match, you consider the best result by skipping one character from either side.
+
+What you learned
+Two strings create two dimensions
+Compare current characters
+Matching characters contribute
+Non-matching characters require a choice
+Store previous subproblem answers
+🔥 The reusable pattern
+
+When a problem compares two sequences and asks for a common/optimal subsequence, think:
+
+“Can I define the answer using prefixes of both sequences?”
+
+So your takeaway is:
+
+LCS → 2D DP → “Compare two sequences and reuse smaller prefix answers.”
+
+🟦 18. Number of Islands
+
+🧠 Pattern: DFS/BFS + Grid Traversal
+
+The key idea is:
+
+Every unvisited land cell represents a possible new island. Once found, traverse all connected land cells and mark them visited.
+
+For example:
+
+1 1 0
+1 0 0
+0 0 1
+
+The connected 1s form one island, while the isolated 1 forms another.
+
+What you learned
+Grid can be treated like a graph
+Each cell is a node
+Adjacent land cells are connected
+DFS/BFS explores the complete component
+Mark visited cells to avoid counting twice
+🔥 The reusable pattern
+
+When a grid asks about connected regions, think:
+
+“Can I treat each cell as a graph node and traverse connected cells?”
+
+So your takeaway is:
+
+Number of Islands → DFS/BFS + Connected Components → “Find a region, then explore the whole region.”
+
+🟦 19. Group Anagrams
+
+🧠 Pattern: Hash Map + Canonical Key Pattern
+
+The key idea is:
+
+Convert every anagram into the same key, then group words having the same key.
+
+For example:
+
+eat
+
+tea
+
+ate
+
+All contain the same characters.
+
+If you sort their characters:
+
+aet
+
+All three produce the same key.
+
+What you learned
+Find a common representation
+Use that representation as a Hash Map key
+Group identical keys
+Different words can represent the same underlying structure
+🔥 The reusable pattern
+
+When different inputs should belong to the same group, think:
+
+“Can I create a common canonical representation?”
+
+So your takeaway is:
+
+Group Anagrams → Hash Map + Canonical Key → “Convert equivalent inputs into the same key.”
+
+🟦 20. Container With Most Water
+
+🧠 Pattern: Two Pointers / Greedy Elimination
+
+The key idea is:
+
+Start with the widest container and move the pointer at the shorter height.
+
+Why?
+
+The area is limited by the shorter wall.
+
+Moving the taller wall cannot increase the limiting height.
+
+What you learned
+Start from both ends
+Calculate the current area
+The shorter side is the limitation
+Move the shorter pointer
+Eliminate impossible choices
+🔥 The reusable pattern
+
+When two boundaries determine an answer and one boundary is the limiting factor, think:
+
+“Which pointer can I move without losing a potentially better answer?”
+
+So your takeaway is:
+
+Container With Most Water → Two Pointers + Greedy → “Move the limiting pointer.”
+
+🟦 21. 3Sum
+
+🧠 Pattern: Sorting + Two Pointers
+
+The key idea is:
+
+Fix one number and reduce the remaining problem to Two Sum using two pointers.
+
+For each fixed number:
+
+a
+
+you need:
+
+b + c = -a
+
+After sorting, two pointers can efficiently search for the required pair.
+
+What you learned
+Reduce a bigger problem into a known pattern
+Sort to enable two-pointer movement
+Fix one element
+Solve the remaining two-element problem
+Handle duplicates carefully
+🔥 The reusable pattern
+
+When a problem asks for three elements satisfying a condition, think:
+
+“Can I fix one element and turn the remaining problem into Two Sum?”
+
+So your takeaway is:
+
+3Sum → Sort + Fix One + Two Pointers → “Reduce 3 elements to a 2-element problem.”
+
+🟦 22. Minimum Window Substring
+
+🧠 Pattern: Sliding Window + Frequency Map
+
+The key idea is:
+
+Expand the window until it contains everything required, then shrink it as much as possible while remaining valid.
+
+The process is:
+
+Expand → Become Valid → Shrink → Find Minimum → Repeat
+
+What you learned
+Maintain a dynamic window
+Track required frequencies
+Expand when the window is insufficient
+Shrink when the window is valid
+Track the smallest valid window
+🔥 The reusable pattern
+
+When looking for the smallest/largest substring satisfying a condition, think:
+
+“Can I use a sliding window that expands and contracts?”
+
+So your takeaway is:
+
+Minimum Window Substring → Sliding Window + Frequency Map → “Expand to satisfy, shrink to optimize.”
+
+🟦 23. Subsets
+
+🧠 Pattern: Backtracking / Include-Exclude Pattern
+
+The key idea is:
+
+For every element, you have two choices: include it or exclude it.
+
+For [1,2]:
+
+For 1:
+
+Include 1
+Exclude 1
+
+Then make the same choices for 2.
+
+What you learned
+Each element creates a decision
+Include or exclude
+Explore every possible decision path
+Backtracking explores the decision tree
+🔥 The reusable pattern
+
+When every element gives you a yes/no choice, think:
+
+“Include it or don't include it?”
+
+So your takeaway is:
+
+Subsets → Backtracking + Include/Exclude → “Every element gives two choices.”
+
+🟦 24. Permutations
+
+🧠 Pattern: Backtracking / Choice Pattern
+
+The key idea is:
+
+At every position, choose one unused element and continue building the permutation.
+
+For:
+
+[1,2,3]
+
+First position can be:
+
+1, 2, or 3.
+
+Then choose from the remaining elements.
+
+What you learned
+Build the answer step by step
+Choose an unused element
+Mark it as used
+Explore
+Undo the choice when returning
+🔥 The reusable pattern
+
+When you need every possible arrangement, think:
+
+“What choices are available for the current position?”
+
+So your takeaway is:
+
+Permutations → Backtracking + Used Elements → “Choose, explore, undo.”
+
+🟦 25. Jump Game
+
+🧠 Pattern: Greedy / Farthest Reach
+
+The key idea is:
+
+Keep track of the farthest index you can currently reach.
+
+You don't need to actually perform every possible jump.
+
+You only care about:
+
+“How far can I reach from everything I've seen so far?”
+
+What you learned
+Maintain the farthest reachable position
+Update it while scanning
+If current position is unreachable, the answer fails
+Make a local decision that preserves the maximum future reach
+🔥 The reusable pattern
+
+When you need to determine whether you can reach an endpoint, think:
+
+“What is the farthest place I can reach so far?”
+
+So your takeaway is:
+
+Jump Game → Greedy + Farthest Reach → “How far can I reach?”
+
+🟦 26. Merge Intervals
+
+🧠 Pattern: Sorting + Interval Merging
+
+The key idea is:
+
+Sort intervals by their starting point, then merge overlapping intervals.
+
+Example:
+
+[1,3]
+
+[2,6]
+
+These overlap because:
+
+2 <= 3
+
+So they become:
+
+[1,6]
+
+What you learned
+Sort first
+Compare current interval with previous merged interval
+If they overlap, merge
+Otherwise start a new interval
+🔥 The reusable pattern
+
+When dealing with ranges or intervals, think:
+
+“Can sorting put related intervals next to each other?”
+
+So your takeaway is:
+
+Merge Intervals → Sort + Overlap Detection → “Sort first, then merge.”
+
+🟦 27. Palindrome Number
+
+🧠 Pattern: Number Reversal / Digit Manipulation
+
+The key idea is:
+
+Reverse the digits of the number and compare the reversed value with the original.
+
+For:
+
+121
+
+Reverse:
+
+121
+
+Same → palindrome.
+
+What you learned
+Extract digits
+Build the reversed number
+Compare with original
+Think mathematically instead of converting unnecessarily
+🔥 The reusable pattern
+
+When a number's digit order matters, think:
+
+“Can I manipulate the digits directly?”
+
+So your takeaway is:
+
+Palindrome Number → Digit Reversal → “Reverse the digits and compare.”
+
+🟦 28. Fizz Buzz
+
+🧠 Pattern: Conditional Logic / Modulo Pattern
+
+The key idea is:
+
+Use divisibility conditions to determine what should be printed.
+
+For each number:
+
+Divisible by both → special combined output
+Divisible by one → corresponding output
+Otherwise → number itself
+What you learned
+Modulo checks divisibility
+Handle combined conditions first
+Use simple conditional logic
+Understand ordering of conditions
+🔥 The reusable pattern
+
+When output depends on divisibility or multiple conditions, think:
+
+“What conditions must be checked first?”
+
+So your takeaway is:
+
+Fizz Buzz → Modulo + Conditions → “Check the most specific condition first.”
+
+🟦 29. Single Number
+
+🧠 Pattern: Bit Manipulation / XOR Pattern
+
+The key idea is:
+
+XOR cancels equal numbers.
+
+Important XOR properties:
+
+a ^ a = 0
+
+a ^ 0 = a
+
+Therefore:
+
+4 ^ 1 ^ 2 ^ 1 ^ 2
+
+becomes:
+
+4
+
+because matching numbers cancel each other.
+
+What you learned
+Understand XOR
+Equal values cancel
+Order does not matter
+Can solve without extra frequency storage
+🔥 The reusable pattern
+
+When every value appears twice except one, think:
+
+“Can XOR cancel all matching pairs?”
+
+So your takeaway is:
+
+Single Number → XOR → “Pairs cancel, unique value remains.”
+
+🟦 30. Median of Two Sorted Arrays
+
+🧠 Pattern: Binary Search on Partition
+
+The key idea is:
+
+Instead of physically merging two arrays, find a partition where everything on the left is smaller than everything on the right.
+
+You want:
+
+LEFT PARTITION | RIGHT PARTITION
+
+such that:
+
+Maximum(left side) ≤ Minimum(right side)
+
+Then the median can be determined from the boundary values.
+
+What you learned
+Don't always construct the combined data
+Use the sorted property
+Binary search the partition
+Find the correct balance between two arrays
+🔥 The reusable pattern
+
+When two sorted datasets need a combined median/order statistic, think:
+
+“Can I find the correct partition without merging them?”
+
+So your takeaway is:
+
+Median of Two Sorted Arrays → Binary Search + Partition → “Find the correct left/right split.”
+
+🟦 31. Trapping Rain Water
+
+🧠 Pattern: Two Pointers + Boundary Maximum
+
+The key idea is:
+
+Water above a position depends on the smaller of the maximum boundaries on its left and right.
+
+Conceptually:
+
+water = min(leftMax, rightMax) - height
+
+The challenge is calculating those boundaries efficiently.
+
+With two pointers, you maintain:
+
+left maximum
+
+and
+
+right maximum
+
+What you learned
+Water depends on boundaries
+The smaller boundary determines the water level
+Maintain maximum height from both sides
+Two pointers avoid extra arrays
+🔥 The reusable pattern
+
+When the answer depends on information from both sides, think:
+
+“Can I maintain the best boundary from each side while scanning?”
+
+So your takeaway is:
+
+Trapping Rain Water → Two Pointers + Boundary Maximum → “The smaller boundary controls the water.”
+
+🟦 32. Merge K Sorted Lists
+
+🧠 Pattern: Min Heap / K-Way Merge
+
+The key idea is:
+
+Keep the smallest current element from each sorted list available, then repeatedly take the smallest one.
+
+Instead of comparing every element from every list, maintain only the current smallest candidates.
+
+What you learned
+Multiple sorted sequences can be merged
+Heap gives fast minimum retrieval
+Only current candidates need to be tracked
+Reuse the sorted property
+🔥 The reusable pattern
+
+When you need to repeatedly select the smallest item from multiple sorted sources, think:
+
+“Can a Min Heap maintain the current smallest candidates?”
+
+So your takeaway is:
+
+Merge K Sorted Lists → Min Heap + K-Way Merge → “Keep the smallest candidate from each list.”
+
+🟦 33. Rotate Array
+
+🧠 Pattern: Array Rotation / Reversal Pattern
+
+The key idea is:
+
+Rotation can be achieved efficiently by reversing parts of the array.
+
+For right rotation by k:
+
+Reverse the entire array
+Reverse the first part
+Reverse the remaining part
+
+The reversals restore the required order.
+
+What you learned
+Rotation doesn't require shifting one element at a time
+Reversal can rearrange an array efficiently
+Reduce repeated operations
+Think about transformations rather than individual movements
+🔥 The reusable pattern
+
+When an array needs to be rotated or rearranged in-place, think:
+
+“Can a sequence of reversals produce the required order?”
+
+So your takeaway is:
+
+Rotate Array → Reversal Pattern → “Transform the order using reversals.”
+
+🟦 34. Move Zeroes
+
+🧠 Pattern: Two Pointers / In-Place Compaction
+
+The key idea is:
+
+Move all non-zero elements toward the front while maintaining their relative order, then place zeroes afterward.
+
+Think:
+
+[0,1,0,3,12]
+
+First collect non-zero elements:
+
+[1,3,12,...]
+
+Then remaining positions become zero.
+
+What you learned
+Separate useful and unwanted elements
+Maintain relative order
+Use an insertion/write pointer
+Modify the array in-place
+🔥 The reusable pattern
+
+When you need to remove/filter elements while maintaining order, think:
+
+“Can I compact the useful elements toward one side?”
+
+So your takeaway is:
+
+Move Zeroes → Two Pointers + In-Place Compaction → “Move useful elements forward.”
+
+🟦 35. Search in Rotated Sorted Array
+
+🧠 Pattern: Modified Binary Search
+
+The key idea is:
+
+Even though the entire array is rotated, at least one half around the middle is still sorted.
+
+Example:
+
+[4,5,6,7,0,1,2]
+
+If you check the middle, you determine:
+
+Which half is sorted?
+
+Then ask:
+
+“Does the target belong to that sorted half?”
+
+If yes → search there.
+
+Otherwise → search the other half.
+
+What you learned
+Binary Search can work beyond completely sorted arrays
+Identify the sorted half
+Determine whether target lies inside it
+Discard the impossible half
+🔥 The reusable pattern
+
+When a sorted structure has been modified but still retains partial order, think:
+
+“Can I identify which half is still sorted?”
+
+So your takeaway is:
+
+Search Rotated Array → Modified Binary Search → “Find the sorted half, then eliminate.”
+
+🟦 36. Validate Binary Search Tree
+
+🧠 Pattern: Tree DFS + Valid Range
+
+The key idea is:
+
+Every node must fall within a valid range determined by its ancestors.
+
+For example, if root is:
+
+10
+
+Then:
+
+Left subtree must contain values:
+
+< 10
+
+Right subtree must contain values:
+
+> 10
+
+But this restriction continues down the tree.
+
+What you learned
+A BST condition applies to the entire subtree
+Not just direct parent-child relationships
+Carry valid boundaries during traversal
+Use recursion with constraints
+🔥 The reusable pattern
+
+When a tree node's validity depends on its ancestors, think:
+
+“What constraints does this node inherit from above?”
+
+So your takeaway is:
+
+Validate BST → DFS + Valid Range → “Every node must respect its inherited boundaries.”
+
+🟦 37. Word Search
+
+🧠 Pattern: Backtracking + Grid DFS
+
+The key idea is:
+
+Start from a matching character and explore neighboring cells while building the required word.
+
+If the path becomes invalid:
+
+Backtrack
+
+and try another direction.
+
+What you learned
+Grid traversal + recursion
+Explore multiple possible paths
+Mark cells as currently used
+Undo the marking when backtracking
+Stop when the complete word is formed
+🔥 The reusable pattern
+
+When a problem asks whether a sequence can be formed through multiple possible paths, think:
+
+“Can I explore every possible path and backtrack when one fails?”
+
+So your takeaway is:
+
+Word Search → DFS + Backtracking → “Explore a path, undo it if it fails.”
+
+🟦 38. LRU Cache
+
+🧠 Pattern: Hash Map + Doubly Linked List
+
+The key idea is:
+
+You need both fast lookup and fast removal/reordering.
+
+Hash Map gives:
+
+O(1) lookup
+
+Doubly Linked List gives:
+
+O(1) removal and movement
+
+Together they maintain:
+
+Most Recently Used ↔ Least Recently Used
+
+What you learned
+One data structure may not solve every requirement
+Hash Map → fast lookup
+Doubly Linked List → fast ordering
+Combine data structures to achieve O(1) operations
+🔥 The reusable pattern
+
+When a problem requires both fast lookup and fast ordering/removal, think:
+
+“Can I combine two data structures so each handles what it does best?”
+
+So your takeaway is:
+
+LRU Cache → Hash Map + Doubly Linked List → “Combine structures to get O(1) operations.”
+
+🟦 39. Longest Palindromic Substring
+
+🧠 Pattern: Expand Around Center
+
+The key idea is:
+
+Every palindrome has a center. Expand outward from that center while both characters match.
+
+There are two possible centers:
+
+Odd length:
+
+aba
+
+Center = b
+
+Even length:
+
+abba
+
+Center = gap between b and b
+
+What you learned
+Every palindrome has a center
+Expand outward
+Check matching characters
+Handle odd and even length palindromes
+🔥 The reusable pattern
+
+When looking for palindromic substrings, think:
+
+“Can I start from a center and expand outward?”
+
+So your takeaway is:
+
+Longest Palindromic Substring → Expand Around Center → “Every palindrome grows from a center.”
+
+🟦 40. Majority Element
+
+🧠 Pattern: Boyer-Moore Voting Pattern
+
+The key idea is:
+
+The majority element appears more than half the time, so its count cannot be completely cancelled by all other elements.
+
+Think of every occurrence of the majority element as:
+
++1
+
+and every different element as:
+
+-1
+
+Because the majority has more occurrences, it survives.
+
+What you learned
+Majority means more than n/2
+Different elements can cancel each other
+Maintain a candidate and count
+Exploit the mathematical guarantee
+🔥 The reusable pattern
+
+When one element is guaranteed to appear more than half the time, think:
+
+“Can opposing elements cancel while the majority survives?”
+
+So your takeaway is:
+
+Majority Element → Boyer-Moore Voting → “Cancel different elements; majority survives.”
+
+🟦 41. Missing Number
+
+🧠 Pattern: XOR / Expected vs Actual Pattern
+
+The key idea is:
+
+The numbers should contain every value in a known range, except one.
+
+XOR all expected values and all actual values.
+
+Matching values cancel.
+
+The only remaining value is the missing number.
+
+What you learned
+Compare expected values with actual values
+XOR can cancel matching values
+No extra Hash Map is required
+Use mathematical structure of the input
+🔥 The reusable pattern
+
+When a sequence should contain a known range with one missing value, think:
+
+“Can I compare expected values with actual values using XOR or arithmetic?”
+
+So your takeaway is:
+
+Missing Number → XOR + Expected Range → “Everything cancels except the missing value.”
+
+🟦 42. Kth Largest Element
+
+🧠 Pattern: Heap / Top-K Pattern
+
+The key idea is:
+
+You don't necessarily need to fully sort the array. You only need to keep track of the top K elements.
+
+For a Kth largest problem, a suitable heap can maintain the important candidates.
+
+What you learned
+Top-K problems often use heaps
+Don't sort everything unnecessarily
+Maintain only the elements that matter
+Heap efficiently maintains extreme values
+🔥 The reusable pattern
+
+When a problem asks for the Kth largest/smallest element, think:
+
+“Can I maintain only the top K candidates?”
+
+So your takeaway is:
+
+Kth Largest → Heap + Top-K → “Keep only the candidates that matter.”
+
+🟦 43. Implement Trie
+
+🧠 Pattern: Trie / Prefix Tree
+
+The key idea is:
+
+Store strings character by character in a tree so shared prefixes use shared paths.
+
+For:
+
+car
+
+cat
+
+They share:
+
+ca
+
+Then branch:
+
+r
+
+and
+
+t
+
+What you learned
+Trie stores characters along paths
+Common prefixes share nodes
+Searching follows one character at a time
+Prefix operations become efficient
+🔥 The reusable pattern
+
+When a problem frequently asks about prefixes, think:
+
+“Can I represent strings as paths in a tree?”
+
+So your takeaway is:
+
+Trie → Prefix Tree → “Store common prefixes only once.”
+
+🟦 44. Course Schedule
+
+🧠 Pattern: Graph + Cycle Detection
+
+The key idea is:
+
+Courses are nodes and prerequisites are directed edges. The schedule is possible only if there is no cycle.
+
+Example:
+
+A → B
+
+means:
+
+A must be completed before B.
+
+If:
+
+A → B → C → A
+
+then you have a cycle.
+
+You can never complete the prerequisites.
+
+What you learned
+Represent dependencies as a directed graph
+Prerequisites create directed edges
+Cycle means impossible dependency
+Topological sorting or DFS cycle detection can solve it
+🔥 The reusable pattern
+
+When a problem contains prerequisites or dependencies, think:
+
+“Is this a directed graph, and do I have a cycle?”
+
+So your takeaway is:
+
+Course Schedule → Directed Graph + Cycle Detection → “Dependencies must not form a cycle.”
+
+🟦 45. Min Stack
+
+🧠 Pattern: Stack + Auxiliary Minimum
+
+The key idea is:
+
+A normal stack gives the top element quickly, but you also need the minimum element quickly.
+
+So maintain additional information about the minimum.
+
+Whenever a value is added or removed, update the minimum information accordingly.
+
+What you learned
+One structure can maintain normal stack behavior
+Additional information can track the minimum
+Don't repeatedly scan the stack
+Design the structure around required operations
+🔥 The reusable pattern
+
+When a data structure needs an extra operation faster than normal, think:
+
+“Can I store additional information to make that operation O(1)?”
+
+So your takeaway is:
+
+Min Stack → Stack + Auxiliary Minimum → “Store extra information for fast queries.”
+
+🟦 46. Longest Increasing Subsequence
+
+🧠 Pattern: Dynamic Programming / Increasing Sequence
+
+The key idea is:
+
+For each element, determine the longest increasing subsequence that ends at that element.
+
+For every current number, look at previous smaller numbers.
+
+If a previous number is smaller, it can potentially extend the subsequence.
+
+What you learned
+Define a state for each position
+Look at previous compatible states
+Extend the best previous subsequence
+Take the best answer across all positions
+🔥 The reusable pattern
+
+When the answer depends on previous elements satisfying a condition, think:
+
+“What is the best valid sequence ending here?”
+
+So your takeaway is:
+
+LIS → DP + Previous States → “What is the best sequence ending at this position?”
+
+🟦 47. Serialize and Deserialize Binary Tree
+
+🧠 Pattern: Tree Encoding / Decoding
+
+The key idea is:
+
+Convert the tree into a sequence that preserves its structure, then reconstruct the tree from that sequence.
+
+You cannot store only the values because structure matters.
+
+For example, these trees can have the same values but different structures.
+
+Therefore, you must represent:
+
+values + null/empty positions
+
+What you learned
+Tree structure must be preserved
+Serialization converts structure → data
+Deserialization converts data → structure
+Null markers are important
+🔥 The reusable pattern
+
+When a complex structure must be stored or transmitted and reconstructed later, think:
+
+“What information is necessary to completely preserve the structure?”
+
+So your takeaway is:
+
+Serialize/Deserialize Tree → Encoding + Decoding → “Store values plus structure.”
+
+🟦 48. Find Minimum in Rotated Sorted Array
+
+🧠 Pattern: Binary Search on Rotation Point
+
+The key idea is:
+
+The minimum element is where the sorted order breaks.
+
+Example:
+
+[4,5,6,7,0,1,2]
+
+The rotation creates a point where:
+
+7 → 0
+
+The minimum is around this rotation boundary.
+
+Use binary search to determine which side contains the rotation point.
+
+What you learned
+Rotated sorted arrays still contain useful order
+Compare middle with boundary
+Determine which side contains the minimum
+Discard the irrelevant half
+🔥 The reusable pattern
+
+When a sorted array has been rotated, think:
+
+“Where did the sorted order break?”
+
+So your takeaway is:
+
+Find Minimum → Binary Search + Rotation Point → “Find where the order breaks.”
+
+🟦 49. Word Break
+
+🧠 Pattern: Dynamic Programming / Prefix Segmentation
+
+The key idea is:
+
+Determine whether the string can be divided into valid dictionary words.
+
+For:
+
+leetcode
+
+Dictionary:
+
+["leet", "code"]
+
+You can split:
+
+leet | code
+
+The important question is:
+
+“If the prefix can be formed, can the remaining suffix also be formed?”
+
+What you learned
+Break the string into smaller prefixes
+Check whether a prefix is a valid word
+Reuse results for previously solved positions
+Build the answer from smaller valid segments
+🔥 The reusable pattern
+
+When a string must be divided into valid pieces, think:
+
+“Can I solve the string prefix by prefix and reuse the results?”
+
+This pattern appears in word segmentation, string partitioning, and many prefix-based DP problems.
+
+So your takeaway is:
+
+Word Break → DP + Prefix Segmentation → “Can this prefix be formed, and can the rest also be formed?”

@@ -17,7 +17,7 @@ function initGemini() {
 
 export const chat = async (req, res) => {
   try {
-    const { message, context, history } = req.body;
+    const { message, context, history, problemTitle, difficulty, tags, language, userCode } = req.body;
     
     if (!message) {
       return res.status(400).json({ success: false, message: 'Message is required' });
@@ -31,12 +31,24 @@ export const chat = async (req, res) => {
       return res.json({ success: true, reply: response });
     }
 
+    // Build problem context block for the system prompt
+    const problemContextParts = [];
+    if (problemTitle) problemContextParts.push(`Problem: "${problemTitle}"`);
+    if (difficulty) problemContextParts.push(`Difficulty: ${difficulty}`);
+    if (tags) problemContextParts.push(`Tags: ${Array.isArray(tags) ? tags.join(', ') : tags}`);
+    if (language) problemContextParts.push(`Language: ${language}`);
+    if (userCode) problemContextParts.push(`User's current code:\n\`\`\`${language || ''}\n${userCode}\n\`\`\``);
+    const problemBlock = problemContextParts.length
+      ? `\n\nThe user is currently working on a coding problem. Here is the context:\n${problemContextParts.join('\n')}`
+      : '';
+
     // Build the chat with conversation history for context
     const systemPrompt = `You are PrimeCode AI Assistant, a helpful coding tutor on a LeetCode-style platform.
 You help users with DSA problems, explain concepts, and give hints without directly giving away full solutions.
-${context ? `Current context: ${context}` : ''}
+${context ? `Current context: ${context}` : ''}${problemBlock}
 Keep responses concise (under 300 words), well-formatted with markdown, and helpful.
-Use code examples when relevant. Use emojis sparingly for friendliness.`;
+Use code examples when relevant. Use emojis sparingly for friendliness.
+When the user asks to explain, debug, or optimize their code, refer to the code provided in the context above.`;
 
     // Build conversation history for multi-turn chat
     const chatHistory = [];

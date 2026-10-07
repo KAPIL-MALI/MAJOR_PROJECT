@@ -224,22 +224,12 @@ async function addRemainingProblems() {
       p.slug = p.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
     });
 
+    // Seed all problems in the array
     let addedCount = 0;
-    
-    // Fetch total problem count to know exactly how many we need to reach 101
     const currentCount = await Problem.countDocuments();
-    let needed = 101 - currentCount;
-    
-    if (needed <= 0) {
-      console.log('Database already has ' + currentCount + ' problems. Goal reached!');
-      process.exit(0);
-    }
-    
-    console.log(`Current DB count: ${currentCount}. We need ${needed} more to reach 101.`);
+    console.log(`Current DB count: ${currentCount}. Seeding any remaining problems...`);
 
     for (let p of newUniqueProblems) {
-      if (addedCount >= needed) break; // stop when we reach 101 total
-
       const exists = await Problem.findOne({ slug: p.slug });
       if (!exists) {
         await Problem.create(p);

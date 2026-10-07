@@ -53,7 +53,7 @@ const Problems = () => {
 
   const getDifficultyColor = (difficulty) => {
     switch(difficulty) {
-      case 'Basic':  return 'text-white bg-white/10 border-white/20';
+      case 'Basic':  return 'text-cyan-500 bg-cyan-500/10 border-cyan-500/20';
       case 'Easy':   return 'text-success bg-success/10 border-success/20';
       case 'Medium': return 'text-warning bg-warning/10 border-warning/20';
       case 'Hard':   return 'text-error bg-error/10 border-error/20';

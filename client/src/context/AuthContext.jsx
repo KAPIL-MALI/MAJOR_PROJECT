@@ -44,6 +44,19 @@ export const AuthProvider = ({ children }) => {
     return res.data;
   };
 
+  const loginAsGuest = () => {
+    const guestUser = {
+      id: null,
+      name: 'Guest',
+      email: '',
+      role: 'guest',
+      avatar: ''
+    };
+    localStorage.setItem('primecode_user', JSON.stringify(guestUser));
+    setUser(guestUser);
+    return { success: true, user: guestUser };
+  };
+
   const logout = () => {
     localStorage.removeItem('primecode_token');
     localStorage.removeItem('primecode_user');
@@ -58,7 +71,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, register, logout, updateProfile, loading, setUser }}>
+    <AuthContext.Provider value={{ user, loginAsGuest, login, register, logout, updateProfile, loading, setUser }}>
       {!loading && children}
     </AuthContext.Provider>
   );

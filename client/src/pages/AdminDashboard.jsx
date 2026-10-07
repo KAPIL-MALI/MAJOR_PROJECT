@@ -138,7 +138,7 @@ const AdminDashboard = () => {
                         <td>{prob.category}</td>
                         <td>
                           <span className={`badge badge-sm ${
-                            prob.difficulty === 'Basic' ? 'text-white bg-white/10 border-white/20' :
+                            prob.difficulty === 'Basic' ? 'text-cyan-500 bg-cyan-500/10 border-cyan-500/20' :
                             prob.difficulty === 'Easy' ? 'badge-success' : 
                             prob.difficulty === 'Medium' ? 'badge-warning' : 'badge-error'
                           } badge-outline`}>

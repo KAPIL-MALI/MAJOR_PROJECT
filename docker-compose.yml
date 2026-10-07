@@ -47,6 +47,15 @@ services:
     <<: *default-logging
     restart: always
 
+  mongodb:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb-data:/data/db
+    restart: always
+
 volumes:
   postgres-data:
   redis-data:
+  mongodb-data:

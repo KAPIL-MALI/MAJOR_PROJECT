@@ -107,7 +107,7 @@ const Profile = () => {
             {/* Basic / Easy / Medium / Hard pills */}
             <div className="flex flex-col gap-2">
               {[
-                { label: 'Basic',  count: basicSolved,  color: 'text-white',    bg: 'bg-white/10    border-white/20'    },
+                { label: 'Basic',  count: basicSolved,  color: 'text-cyan-500', bg: 'bg-cyan-500/10 border-cyan-500/20' },
                 { label: 'Easy',   count: easySolved,   color: 'text-success',  bg: 'bg-success/10  border-success/20'  },
                 { label: 'Medium', count: mediumSolved, color: 'text-warning',  bg: 'bg-warning/10  border-warning/20'  },
                 { label: 'Hard',   count: hardSolved,   color: 'text-error',    bg: 'bg-error/10    border-error/20'    },
@@ -138,10 +138,10 @@ const Profile = () => {
               {/* Basic */}
               <div>
                 <div className="flex justify-between text-sm mb-1">
-                  <span className="text-white font-medium">Basic</span>
+                  <span className="text-cyan-500 font-medium">Basic</span>
                   <span className="font-mono">{basicSolved} <span className="text-base-content/40">/ 11</span></span>
                 </div>
-                <progress className="progress w-full bg-white/20" value={basicSolved} max="11" style={{ color: 'white' }} />
+                <progress className="progress w-full bg-cyan-500/20" value={basicSolved} max="11" style={{ color: '#06b6d4' }} />
               </div>
               {/* Easy */}
               <div>

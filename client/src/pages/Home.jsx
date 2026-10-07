@@ -46,7 +46,7 @@ const Home = () => {
           </h1>
           
           <p className="text-xl md:text-2xl font-medium text-base-content/60 max-w-3xl mx-auto mb-10 animate-slide-up" style={{ animationDelay: '200ms' }}>
-            The premium platform for developers to practice data structures, algorithms, and system design with an intelligent AI tutor by your side.
+            The premium platform for developers to practice data structures and algorithms with an intelligent AI tutor by your side.
           </p>
           
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 animate-slide-up" style={{ animationDelay: '300ms' }}>

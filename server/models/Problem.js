@@ -59,6 +59,10 @@ const problemSchema = new mongoose.Schema({
     type: String,
     default: ''
   },
+  pattern: {
+    type: String,
+    default: ''
+  },
   videoUrl: {
     type: String,
     default: ''

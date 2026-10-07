@@ -6,6 +6,7 @@ import Timer from '../components/ui/Timer';
 import ReactMarkdown from 'react-markdown';
 import { Play, Send, CheckCircle2, XCircle, Clock, Cpu, Lock, ChevronDown, ChevronUp, Copy, Check, Edit3 } from 'lucide-react';
 import clsx from 'clsx';
+import { useChatbotContext } from '../context/ChatbotContext';
 
 const getYouTubeEmbedUrl = (url) => {
   if (!url) return null;
@@ -35,11 +36,19 @@ const ProblemDetail = () => {
   const [expandedSubmissionId, setExpandedSubmissionId] = useState(null);
   const [copiedId, setCopiedId] = useState(null);
 
+  const { updateChatbotContext, clearChatbotContext } = useChatbotContext();
+
+  // Clear chatbot context when leaving the problem page
   useEffect(() => {
-    if (activeTab === 'submissions' && problem) {
+    return () => clearChatbotContext();
+  }, [clearChatbotContext]);
+
+  // Fetch submissions automatically once the problem loads to check solved status
+  useEffect(() => {
+    if (problem) {
       fetchSubmissions();
     }
-  }, [activeTab, problem]);
+  }, [problem]);
 
   const fetchSubmissions = async () => {
     try {
@@ -104,9 +113,19 @@ const ProblemDetail = () => {
   const fetchProblem = async () => {
     try {
       const res = await api.get(`/problems/${slug}`);
-      setProblem(res.data.problem);
-      setCode(res.data.problem.starterCode[language] || '');
+      const p = res.data.problem;
+      setProblem(p);
+      setCode(p.starterCode[language] || '');
       setLoading(false);
+
+      // Push problem metadata into chatbot context
+      updateChatbotContext({
+        problemTitle: p.title,
+        difficulty: p.difficulty,
+        tags: p.tags || p.category,
+        language,
+        userCode: p.starterCode[language] || '',
+      });
     } catch (error) {
       console.error('Failed to fetch problem', error);
     }
@@ -116,7 +135,9 @@ const ProblemDetail = () => {
     setLanguage(newLang);
     if (problem && problem.starterCode) {
       // Basic confirmation could go here if code was modified
-      setCode(problem.starterCode[newLang] || '');
+      const newCode = problem.starterCode[newLang] || '';
+      setCode(newCode);
+      updateChatbotContext({ language: newLang, userCode: newCode });
     }
   };
 
@@ -165,6 +186,10 @@ const ProblemDetail = () => {
         type: 'submit',
         ...res.data.submission
       });
+      // Immediately refresh submissions list if the submission was accepted to unlock the solution tab
+      if (res.data.submission.status === 'Accepted') {
+        fetchSubmissions();
+      }
     } catch (error) {
       setOutput({
         type: 'error',
@@ -174,6 +199,8 @@ const ProblemDetail = () => {
       setIsSubmitting(false);
     }
   };
+
+  const isSolved = submissions.some(s => s.status === 'Accepted') || (output?.type === 'submit' && output?.status === 'Accepted');
 
   if (loading) {
     return (
@@ -192,7 +219,7 @@ const ProblemDetail = () => {
       <div className="w-1/2 flex flex-col min-h-0 bg-base-100 rounded-xl border border-base-content/10 overflow-hidden shadow-sm">
         {/* Tabs */}
         <div className="flex border-b border-base-content/10 bg-base-200/30 px-2 pt-2">
-          {['description', 'solutions', 'submissions', problem.videoUrl ? 'video' : null].filter(Boolean).map(tab => (
+          {['description', 'solutions', 'submissions', problem.videoUrl ? 'video' : null, 'pattern'].filter(Boolean).map(tab => (
             <button
               key={tab}
               className={`px-4 py-2 text-sm font-medium border-b-2 capitalize transition-colors ${
@@ -215,7 +242,7 @@ const ProblemDetail = () => {
               <div className="flex items-center gap-3 mb-6">
                 <span className={clsx(
                   "px-2.5 py-1 rounded-md text-xs font-medium border",
-                  problem.difficulty === 'Basic' && "text-white bg-white/10 border-white/20",
+                  problem.difficulty === 'Basic' && "text-cyan-500 bg-cyan-500/10 border-cyan-500/20",
                   problem.difficulty === 'Easy' && "text-success bg-success/10 border-success/20",
                   problem.difficulty === 'Medium' && "text-warning bg-warning/10 border-warning/20",
                   problem.difficulty === 'Hard' && "text-error bg-error/10 border-error/20"
@@ -262,9 +289,25 @@ const ProblemDetail = () => {
           )}
           
           {activeTab === 'solutions' && (
-            <div className="p-4 text-center text-base-content/60 mt-10">
-              <Lock className="mx-auto mb-2 opacity-50" size={32} />
-              <p>Solutions are unlocked after you solve the problem.</p>
+            <div className="animate-fade-in p-2">
+              {isSolved ? (
+                <div className="prose prose-sm max-w-none dark:prose-invert bg-base-200/30 p-6 rounded-xl border border-base-content/10">
+                  <div className="mb-6 p-4 bg-primary/10 rounded-lg border border-primary/20">
+                    <h3 className="font-semibold text-primary mb-1">💡 Optimal Approach Summary</h3>
+                    <p className="m-0 text-base-content/90 font-sans">{problem.solution || 'No summary available.'}</p>
+                  </div>
+                  {problem.solutionExplanation ? (
+                    <ReactMarkdown>{problem.solutionExplanation}</ReactMarkdown>
+                  ) : (
+                    <p className="text-base-content/60">Detailed explanation is being loaded...</p>
+                  )}
+                </div>
+              ) : (
+                <div className="p-4 text-center text-base-content/60 mt-10">
+                  <Lock className="mx-auto mb-2 opacity-50" size={32} />
+                  <p>Solutions are unlocked after you solve the problem.</p>
+                </div>
+              )}
             </div>
           )}
           
@@ -373,6 +416,21 @@ const ProblemDetail = () => {
               </div>
             </div>
           )}
+
+          {activeTab === 'pattern' && (
+            <div className="animate-fade-in p-2">
+              <div className="prose prose-sm max-w-none dark:prose-invert bg-base-200/30 p-6 rounded-xl border border-base-content/10">
+                {problem.pattern ? (
+                  <ReactMarkdown>{problem.pattern}</ReactMarkdown>
+                ) : (
+                  <div className="text-center text-base-content/60 py-8">
+                    <p className="text-lg font-semibold mb-2">🧠 Pattern explanation coming soon!</p>
+                    <p>We are currently writing the learning takeaways for this problem.</p>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
         </div>
       </div>
 
@@ -400,7 +458,10 @@ const ProblemDetail = () => {
 
           {/* Editor Core */}
           <div className="flex-1 overflow-hidden relative">
-            <CodeEditor language={language} value={code} onChange={setCode} />
+            <CodeEditor language={language} value={code} onChange={(newCode) => {
+              setCode(newCode);
+              updateChatbotContext({ userCode: newCode });
+            }} />
           </div>
         </div>
 
@@ -491,13 +552,15 @@ const ProblemDetail = () => {
                       output.status === 'Accepted' ? 'text-success' : 'text-error'
                     )}>
                       {output.status === 'Accepted' ? <CheckCircle2 size={24} /> : <XCircle size={24} />}
-                      {output.status === 'Accepted' 
-                        ? (output.type === 'submit' ? 'Correct Answer' : 'Compilation Completed') 
-                        : output.status}
+                      {output.type === 'error' 
+                        ? 'Execution Error'
+                        : output.status === 'Accepted' 
+                          ? (output.type === 'submit' ? 'Correct Answer' : 'Compilation Completed') 
+                          : output.status}
                     </h3>
 
-                    {/* Stats for Submit */}
-                    {output.type === 'submit' && (
+                    {/* Stats for Submit (only show when accepted or wrong answer, not for compile errors) */}
+                    {output.type === 'submit' && output.status !== 'Compilation Error' && (
                       <div className="flex gap-4 mb-6">
                         <div className="bg-base-200/50 px-4 py-2 rounded-lg border border-base-content/5 flex items-center gap-2">
                           <Clock size={16} className="text-base-content/60" />
@@ -517,19 +580,66 @@ const ProblemDetail = () => {
                       </div>
                     )}
 
-                    {/* Stdout / Stderr */}
-                    {output.stderr ? (
-                      <div className="bg-error/10 text-error p-4 rounded-lg border border-error/20 whitespace-pre-wrap">
+                    {/* Test case count for compilation errors on submit */}
+                    {output.type === 'submit' && output.status === 'Compilation Error' && (
+                      <div className="flex gap-4 mb-4">
+                        <div className="bg-error/10 px-4 py-2 rounded-lg border border-error/20 flex items-center gap-2">
+                          <XCircle size={16} className="text-error" />
+                          <span className="font-semibold text-error">0 / {output.totalTestCases}</span>
+                          <span className="text-error/70 font-sans text-sm">Passed</span>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Error output: stderr, compile errors */}
+                    {output.type === 'error' && output.stderr && (
+                      <div className="bg-error/10 text-error p-4 rounded-lg border border-error/20 whitespace-pre-wrap font-mono text-xs">
                         {output.stderr}
                       </div>
-                    ) : output.type === 'run' ? (
+                    )}
+
+                    {output.type === 'run' && output.stderr && (
+                      <div className="space-y-4">
+                        <div>
+                          <p className="text-xs text-error font-semibold mb-1 font-sans flex items-center gap-1">
+                            <XCircle size={12} /> Error Output
+                          </p>
+                          <div className="bg-error/10 text-error p-3 rounded-lg border border-error/20 whitespace-pre-wrap text-xs">
+                            {output.stderr}
+                          </div>
+                        </div>
+                        {output.stdout && (
+                          <div>
+                            <p className="text-xs text-base-content/50 mb-1 font-sans">Standard Output</p>
+                            <div className="bg-base-200 p-3 rounded-lg whitespace-pre-wrap">{output.stdout}</div>
+                          </div>
+                        )}
+                      </div>
+                    )}
+
+                    {output.type === 'run' && !output.stderr && (
                       <div className="space-y-4">
                         <div>
                           <p className="text-xs text-base-content/50 mb-1 font-sans">Output</p>
                           <div className="bg-base-200 p-3 rounded-lg whitespace-pre-wrap">{output.stdout || 'No output'}</div>
                         </div>
                       </div>
-                    ) : output.results && output.status !== 'Accepted' && (
+                    )}
+
+                    {/* Submit: show compilation error details from results */}
+                    {output.type === 'submit' && output.stderr && (
+                      <div>
+                        <p className="text-xs text-error font-semibold mb-1 font-sans flex items-center gap-1">
+                          <XCircle size={12} /> Compiler / Runtime Error
+                        </p>
+                        <div className="bg-error/10 text-error p-3 rounded-lg border border-error/20 whitespace-pre-wrap font-mono text-xs">
+                          {output.stderr}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Submit: show failed test cases for wrong answers (not compile errors) */}
+                    {output.type === 'submit' && !output.stderr && output.results && output.status !== 'Accepted' && output.status !== 'Compilation Error' && (
                       <div className="space-y-4">
                         {output.results.filter(r => !r.passed).slice(0, 1).map((failedCase, idx) => (
                           <div key={idx}>

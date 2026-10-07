@@ -6,9 +6,14 @@ import { Code2, User as UserIcon, LogOut, Sun, Moon, TerminalSquare } from 'luci
 import clsx from 'clsx';
 
 const Navbar = () => {
-  const { user, logout } = useAuth();
+  const { user, logout, loginAsGuest } = useAuth();
   const { theme, toggleTheme } = useTheme();
   const navigate = useNavigate();
+
+  const handleGuestLogin = () => {
+    loginAsGuest();
+    navigate('/');
+  };
 
   const handleLogout = () => {
     logout();
@@ -30,7 +35,7 @@ const Navbar = () => {
         {/* Navigation Links */}
         <div className="hidden sm:flex gap-2">
           <Link to="/problems" className="btn btn-ghost btn-sm text-base-content/80 hover:text-primary">Problems</Link>
-          <Link to="/leaderboard" className="btn btn-ghost btn-sm text-base-content/80 hover:text-primary">Leaderboard</Link>
+          <Link to="/" className="btn btn-ghost btn-sm text-base-content/80 hover:text-primary">Home</Link>
         </div>
 
         {/* Theme Toggle */}
@@ -77,8 +82,9 @@ const Navbar = () => {
           </div>
         ) : (
           <div className="flex gap-2">
+            <button onClick={handleGuestLogin} className="btn btn-ghost btn-sm hidden sm:inline-flex">Guest</button>
             <Link to="/login" className="btn btn-ghost btn-sm hidden sm:inline-flex">Log In</Link>
-            <Link to="/register" className="btn btn-primary btn-sm bg-gradient-to-r from-primary to-secondary border-none text-white shadow-lg shadow-primary/30 hover:shadow-primary/50">Sign Up</Link>
+            <Link to="/register" className="btn btn-primary btn-sm bg-gradient-to-r from-emerald-500 to-emerald-600 border-none text-white shadow-lg shadow-emerald-500/30 hover:shadow-emerald-600/50">Sign Up</Link>
           </div>
         )}
       </div>

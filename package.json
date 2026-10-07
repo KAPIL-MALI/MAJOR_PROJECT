@@ -10,6 +10,8 @@
     "seed": "cd server && npm run seed"
   },
   "dependencies": {
-    "concurrently": "^8.2.2"
+    "@google/generative-ai": "^0.24.1",
+    "concurrently": "^8.2.2",
+    "zod": "^4.4.3"
   }
 }
