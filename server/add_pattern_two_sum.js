@@ -51,7 +51,7 @@ async function migrate() {
       { pattern: patternText },
       { new: true }
     );
-
+//
     if (result) {
       console.log('Successfully updated Two Sum pattern!');
     } else {
