@@ -272,7 +272,7 @@ const ProblemForm = ({ problem, onClose, onSave }) => {
           </form>
         </div>
 
-        {/* Footer */}
+        {/* Footer is present here */}
         <div className="p-4 border-t border-base-content/10 bg-base-200/50 flex justify-end gap-3">
           <button type="button" onClick={onClose} className="btn btn-ghost">Cancel</button>
           <button type="submit" form="problem-form" disabled={loading} className="btn btn-primary shadow-lg shadow-primary/30">
