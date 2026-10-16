@@ -53,7 +53,7 @@ const ProblemForm = ({ problem, onClose, onSave }) => {
   const handleArrayChange = (arrayName, index, field, value) => {
     const newArray = [...formData[arrayName]];
     if (field === null) {
-      newArray[index] = value; // For constraints (array of strings)
+      newArray[index] = value; // For constraints (array of strings is received)
     } else {
       newArray[index][field] = value; // For arrays of objects
     }
