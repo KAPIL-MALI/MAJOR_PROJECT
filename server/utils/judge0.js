@@ -99,7 +99,7 @@ export const runTestCases = async (code, language, testCases) => {
   return { results, passed, total: testCases.length };
 };
 
-// Get status description
+// Get status description code
 export const getStatusDescription = (statusId) => {
   const statuses = {
     1: 'In Queue',
