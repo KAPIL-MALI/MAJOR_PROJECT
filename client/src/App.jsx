@@ -5,7 +5,7 @@ import { ThemeProvider } from './context/ThemeContext';
 import { ChatbotProvider } from './context/ChatbotContext';
 import Layout from './components/layout/Layout';
 
-// Pages (will be created soon)
+// Pages 
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
